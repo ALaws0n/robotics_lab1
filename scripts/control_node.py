@@ -7,26 +7,27 @@ from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
 # Import the Turtlecontrol message
 from robotics_lab1.msg import Turtlecontrol
-# Might need this
-import math
+
 
 vel_cmd = Twist()
 Turtle_Position = Pose()
 Control_Info = Turtlecontrol()
 
+
+# Callback function for the subscriber of the '/turtle1/pose' topic
 def turtleBot_position(data):
 	global Turtle_Position
 	Turtle_Position.x = data.x
 
+# Callback function for the subscriber of the '/turtle1/control_params' topic
 def user_control_params(data):
 	global Control_Info
 	Control_Info.kp = data.kp
 	Control_Info.xd = data.xd
-	
+
+# Function to handle the proportional control 	
 def proportional_control(Turtle_Pos_X, Control_kp, Control_xd):
 	global vel_cmd
-	#error = Control_xd - Turtle_Pos_X
-	#new_velocity = Control_kp * error
 	
 	new_velocity = Control_kp*(Control_xd - Turtle_Pos_X)
 	
